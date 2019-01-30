@@ -12,8 +12,8 @@ interface INumericInputProps {
   onChange?: (e: React.ChangeEvent) => void;
   onBlur?: (e: React.ChangeEvent, value: any) => void;
   onClick?: () => void;
-  onFocus?: any;
-  onKeyPress?: any;
+  onFocus?: () => void;
+  onKeyPress?: () => void;
   style?: Record<string, any>;
   value?: string | number;
   percent?: boolean | false;
