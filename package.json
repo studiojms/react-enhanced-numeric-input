@@ -1,0 +1,44 @@
+{
+  "name": "react-enhanced-numeric-input",
+  "version": "1.0.0",
+  "description": "An enhanced Numeric Input compatible with all browsers",
+  "repository": "https://github.com/studiojms/react-enhanced-numeric-input.git",
+  "author": "studiojms",
+  "license": "MIT",
+  "scripts": {
+    "watch": "webpack --mode=development --watch",
+    "dev": "webpack --mode=development",
+    "build": "webpack --mode=production",
+    "lint": "tslint -p tsconfig.json",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@types/classnames": "^2.2.7",
+    "@types/react": "^16.7.21",
+    "@types/react-dom": "^16.0.11",
+    "classnames": "^2.2.6",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0"
+  },
+  "devDependencies": {
+    "@types/enzyme": "^3.1.16",
+    "@types/enzyme-adapter-react-16": "^1.0.3",
+    "@types/jest": "^23.3.13",
+    "awesome-typescript-loader": "^5.2.1",
+    "enzyme": "^3.8.0",
+    "enzyme-adapter-react-16": "^1.8.0",
+    "enzyme-to-json": "^3.3.5",
+    "jest": "^24.0.0",
+    "prettier": "^1.16.2",
+    "source-map-loader": "^0.2.4",
+    "ts-jest": "^23.10.5",
+    "tslint": "^5.12.1",
+    "tslint-config-prettier": "^1.17.0",
+    "tslint-eslint-rules": "^5.4.0",
+    "tslint-plugin-prettier": "^2.0.1",
+    "tslint-react": "^3.6.0",
+    "typescript": "^3.2.4",
+    "webpack": "^4.29.0",
+    "webpack-cli": "^3.2.1"
+  }
+}
