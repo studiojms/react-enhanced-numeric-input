@@ -170,7 +170,7 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
       e.target.value = valor;
     }
 
-    this.props.onBlur(e, valor ? parseFloat(valor.replace(",", ".")) : null);
+    this.props.onBlur && this.props.onBlur(e, valor ? parseFloat(valor.replace(",", ".")) : null);
   }
 
   private handleButtonClick(input: HTMLInputElement) {
