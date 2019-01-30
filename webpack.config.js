@@ -4,7 +4,7 @@ const path = require("path");
 module.exports = {
   entry: "./src/NumericInput.tsx",
   output: {
-    filename: "bundle.js",
+    filename: "NumericInput.js",
     path: path.join(__dirname, "dist"),
     libraryTarget: "commonjs2",
   },
