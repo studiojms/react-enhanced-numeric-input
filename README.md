@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/studiojms/react-enhanced-numeric-input.svg?branch=master)](https://travis-ci.com/studiojms/react-enhanced-numeric-input)
+
 # react-enhanced-numeric-input
 
 An enhanced Numeric Input made with React
