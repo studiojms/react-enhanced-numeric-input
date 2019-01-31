@@ -33,3 +33,5 @@ To use it, you will need to import the component and use it like:
 | percent           | boolean          | false         |
 | money             | boolean          | false         |
 | stringValueOnBlur | boolean          | false         |
+| decimalSeparator  | string           | ,             |
+| moneyMask         | string           | \$            |

@@ -6,6 +6,7 @@
   "author": "studiojms",
   "license": "MIT",
   "main": "dist/NumericInput.js",
+  "types": "dist/NumericInput.d.ts",
   "scripts": {
     "watch": "webpack --mode=development --watch",
     "dev": "webpack --mode=development",

@@ -3,9 +3,10 @@ import * as React from "react";
 
 interface INumericInputProps {
   className?: string;
-  decimalPrecision?: number | 0;
+  decimalPrecision?: number;
+  decimalSeparator?: string;
   disabled?: false;
-  maxLength?: 20;
+  maxLength?: number;
   id?: string;
   name?: string;
   placeholder?: string;
@@ -16,9 +17,10 @@ interface INumericInputProps {
   onKeyPress?: () => void;
   style?: Record<string, any>;
   value?: string | number;
-  percent?: boolean | false;
-  money?: boolean | false;
-  stringValueOnBlur?: boolean | false;
+  percent?: boolean;
+  money?: boolean;
+  moneyMask?: string;
+  stringValueOnBlur?: boolean;
 }
 
 interface INumericInputState {
@@ -50,10 +52,18 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
     this.onBlur = this.onBlur.bind(this);
   }
 
+  private get decimalSeparator(): string {
+    return this.props.decimalSeparator || ",";
+  }
+
+  private get moneyMask(): string {
+    return this.props.moneyMask || "$";
+  }
+
   public componentDidMount() {
     this.setState({
       formattedValue: this.formatWithZeroes(
-        `${this.props.value || ""}`.replace(/\./g, ","),
+        `${this.props.value || ""}`.replace(/\./g, this.decimalSeparator),
         this.props.decimalPrecision
       ),
       value: this.props.value,
@@ -65,7 +75,10 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
 
     if (value !== prevProps.value && this.state.formattedValue !== value) {
       this.setState({
-        formattedValue: this.formatWithZeroes(`${value || ""}`.replace(/\./g, ","), this.props.decimalPrecision),
+        formattedValue: this.formatWithZeroes(
+          `${value || ""}`.replace(/\./g, this.decimalSeparator),
+          this.props.decimalPrecision
+        ),
         value,
       });
     }
@@ -75,7 +88,7 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
     const { props } = this;
 
     const numericPattern = "^[-]?[0-9]*";
-    const decimalPattern = "^[-]?[0-9]*(,{1}[0-9]*)?";
+    const decimalPattern = `^[-]?[0-9]*(${this.decimalSeparator}{1}[0-9]*)?`;
 
     return (
       <div className="sv-input-group">
@@ -84,7 +97,7 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
           disabled={props.disabled}
           name={props.name}
           style={this.props.style}
-          maxLength={props.maxLength}
+          maxLength={props.maxLength || 20}
           pattern={props.decimalPrecision > 0 ? decimalPattern : numericPattern}
           type="text"
           id={props.id}
@@ -117,7 +130,7 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
       val = String(val);
 
       let paddingZeroes = "";
-      const separator = ",";
+      const separator = this.decimalSeparator;
       const separatorPosition = val.indexOf(separator);
       const hasSeparator = separatorPosition > 0;
       let missingPlaces;
@@ -132,12 +145,12 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
         paddingZeroes += "0";
       }
 
-      const parcialFormattedValue = `${val}${hasSeparator ? "" : separator}${paddingZeroes}`;
+      const partialFormattedValue = `${val}${hasSeparator ? "" : separator}${paddingZeroes}`;
 
       formattedValue =
-        parcialFormattedValue.split(separator)[0] +
+        partialFormattedValue.split(separator)[0] +
         separator +
-        parcialFormattedValue.split(separator)[1].substr(0, decimalPlaces);
+        partialFormattedValue.split(separator)[1].substr(0, decimalPlaces);
     }
 
     return formattedValue;
@@ -148,7 +161,7 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
     if (this.props.stringValueOnBlur) {
       returnValue = `${baseValue}`;
     } else {
-      returnValue = baseValue ? parseFloat(baseValue.replace(",", ".")) : null;
+      returnValue = baseValue ? parseFloat(baseValue.replace(this.decimalSeparator, ".")) : null;
     }
 
     return returnValue;
@@ -161,7 +174,7 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
 
       valor = this.formatWithZeroes(valor, decimalPrecision);
 
-      if (valor.indexOf("-0,") >= 0) {
+      if (valor.indexOf(`-0${this.decimalSeparator}`) >= 0) {
         // remove sinal se valor for 0
         valor = valor.substr(1, valor.length);
       }
@@ -170,7 +183,7 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
       e.target.value = valor;
     }
 
-    this.props.onBlur && this.props.onBlur(e, valor ? parseFloat(valor.replace(",", ".")) : null);
+    this.props.onBlur && this.props.onBlur(e, valor ? parseFloat(valor.replace(this.decimalSeparator, ".")) : null);
   }
 
   private handleButtonClick(input: HTMLInputElement) {
@@ -182,7 +195,7 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
     let button = null;
 
     if (this.props.money || this.props.percent) {
-      let icon = this.props.money ? "R$" : "";
+      let icon = this.props.money ? this.moneyMask : "";
       if (this.props.percent) {
         icon = "%";
       }
