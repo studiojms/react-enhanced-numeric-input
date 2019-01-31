@@ -25,8 +25,19 @@ describe("<NumericInput />", () => {
     expect(wrapper3.find("input").props().value).toBe("50,000");
   });
 
+  it("should round to 3 decimal places with custom decimal separator", () => {
+    const wrapper3 = shallow(<NumericInput decimalPrecision={3} value={50} decimalSeparator="." />);
+    expect(wrapper3.find("input").props().value).toBe("50.000");
+  });
+
   it("should show a button with money symbol", () => {
     const wrapper = shallow(<NumericInput decimalPrecision={2} value={50} money={true} />);
+    expect(wrapper.find("input").props().value).toBe("50,00");
+    expect(wrapper.find("button").text()).toBe("$");
+  });
+
+  it("should show a button with custom money symbol", () => {
+    const wrapper = shallow(<NumericInput decimalPrecision={2} value={50} money={true} moneyMask="R$" />);
     expect(wrapper.find("input").props().value).toBe("50,00");
     expect(wrapper.find("button").text()).toBe("R$");
   });
