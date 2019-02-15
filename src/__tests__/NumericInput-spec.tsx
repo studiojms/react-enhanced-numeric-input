@@ -47,4 +47,9 @@ describe("<NumericInput />", () => {
     expect(wrapper.find("input").props().value).toBe("50,00");
     expect(wrapper.find("button").text()).toBe("%");
   });
+
+  it("should show value when user inputs 0", () => {
+    const wrapper = shallow(<NumericInput decimalPrecision={2} value={0} />);
+    expect(wrapper.find("input").props().value).toBe("0,00");
+  });
 });
