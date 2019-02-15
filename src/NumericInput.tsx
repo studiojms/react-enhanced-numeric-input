@@ -63,7 +63,7 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
   public componentDidMount() {
     this.setState({
       formattedValue: this.formatWithZeroes(
-        `${this.props.value || ""}`.replace(/\./g, this.decimalSeparator),
+        `${this.props.value != null ? this.props.value : ""}`.replace(/\./g, this.decimalSeparator),
         this.props.decimalPrecision
       ),
       value: this.props.value,
@@ -76,7 +76,7 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
     if (value !== prevProps.value && this.state.formattedValue !== value) {
       this.setState({
         formattedValue: this.formatWithZeroes(
-          `${value || ""}`.replace(/\./g, this.decimalSeparator),
+          `${value != null ? value : ""}`.replace(/\./g, this.decimalSeparator),
           this.props.decimalPrecision
         ),
         value,
@@ -102,7 +102,7 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
           type="text"
           id={props.id}
           ref={this.inputRef}
-          value={this.state.formattedValue || ""}
+          value={this.state.formattedValue != null ? this.state.formattedValue : ""}
           placeholder={props.placeholder}
           onChange={this.onChange}
           onBlur={this.onBlur}

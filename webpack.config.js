@@ -1,5 +1,6 @@
 /* eslint-disable */
 const path = require("path");
+const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
   entry: "./src/NumericInput.tsx",
@@ -20,5 +21,16 @@ module.exports = {
   },
   externals: {
     react: "commonjs react",
+  },
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          output: {
+            comments: false,
+          },
+        },
+      }),
+    ],
   },
 };
