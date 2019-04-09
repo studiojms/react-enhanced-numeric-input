@@ -107,7 +107,7 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
           disabled={props.disabled}
           name={props.name}
           style={this.props.style}
-          maxLength={props.maxLength || 20}
+          maxLength={props.maxLength || 15}
           pattern={props.decimalPrecision > 0 ? decimalPattern : numericPattern}
           type="text"
           id={props.id}
