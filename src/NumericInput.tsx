@@ -97,17 +97,17 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
     const decimalPattern = `^[-]?[0-9]*(${this.decimalSeparator}{1}[0-9]*)?`;
 
     return (
-      <div className="ni-numeric-input">
-        {props.money && <span className="ni-ma--5 ni-ml--0 ni-cursor--default">{this.moneyMask}</span>}
+      <div
+        className={classnames("ni-numeric-input", { percent: props.percent, money: props.money })}
+        data-percent={props.percent ? this.percent : ""}
+        data-money={props.money ? this.moneyMask : ""}
+      >
         <input
-          className={classnames("ni-text-right", props.className, {
-            "ni-input-percent": props.percent,
-            "ni-input-money": props.money,
-          })}
+          className={classnames("ni-text-right", props.className)}
           disabled={props.disabled}
           name={props.name}
           style={this.props.style}
-          maxLength={props.maxLength || 15}
+          maxLength={props.maxLength || 20}
           pattern={props.decimalPrecision > 0 ? decimalPattern : numericPattern}
           type="text"
           id={props.id}
@@ -119,7 +119,6 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
           onFocus={this.props.onFocus}
           onKeyPress={this.props.onKeyPress}
         />
-        {props.percent && <span className="ni-ma--5 ni-cursor--default">{this.percent}</span>}
       </div>
     );
   }

@@ -1,27 +1,35 @@
+.ni-numeric-input {
+  position: relative;
+}
+
+.ni-numeric-input.percent input {
+  padding-right: 25px !important;
+}
+
+.ni-numeric-input.money input {
+  padding-left: 25px !important;
+}
+
+.ni-numeric-input.percent::after {
+  content: attr(data-percent);
+  font-size: 1rem;
+  display: block;
+  font-weight: bold;
+  position: absolute;
+  top: 6px;
+  right: 7px;
+}
+
+.ni-numeric-input.money::before {
+  content: attr(data-money);
+  font-size: 1rem;
+  display: block;
+  font-weight: 500;
+  position: absolute;
+  top: 6px;
+  left: 4px;
+}
+
 .ni-text-right {
   text-align: right;
-}
-
-.ni-ma--5 {
-  margin: 5px;
-}
-
-.ni-ml--0 {
-  margin-left: 0;
-}
-
-.ni-input-percent {
-  max-width: calc(100% - 25px);
-}
-
-.ni-input-money {
-  max-width: calc(100% - 25px);
-}
-
-.ni-input-percent.ni-input-money {
-  max-width: calc(100% - 40px);
-}
-
-.ni-cursor--default {
-  cursor: default;
 }
