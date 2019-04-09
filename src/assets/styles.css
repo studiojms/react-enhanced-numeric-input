@@ -21,3 +21,7 @@
 .ni-input-percent.ni-input-money {
   max-width: calc(100% - 40px);
 }
+
+.ni-cursor--default {
+  cursor: default;
+}

@@ -16,6 +16,45 @@ To use it, you will need to import the component and use it like:
 <NumericInput decimalPrecision={2} value={50} />
 ```
 
+# Styles
+
+The new version includes some default styles to format the money and percent input.
+To use it, it is necessary to import the styles in the project distribution pack.
+
+## Example
+
+```js
+import "react-enhanced-numeric-input/dist/react-enhanced-numeric-input.css";
+```
+
+# Properties
+
+It is possible to set some properties globally.
+
+## Setting default properties
+
+Some properties need to be set systemwide. To do so, it is necessary to import the function that defines it and set a new value.
+
+### Default values
+
+| Property         | Default Value |
+| :--------------- | :------------ |
+| moneyMask        | \$            |
+| percent          | %             |
+| decimalSeparator | ,             |
+
+### Example
+
+```js
+import { setDefaultMoneyMask, setDefaultPercent, setDefaultDecimalSeparator } from "react-enhanced-numeric-input";
+
+setDefaultMoneyMask("US$");
+setDefaultPercent("percent");
+setDefaultDecimalSeparator(".");
+```
+
+## Properties list
+
 | Property          | Type             | Default Value |
 | :---------------- | :--------------- | :------------ |
 | className         | string           | -             |

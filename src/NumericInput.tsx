@@ -98,7 +98,7 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
 
     return (
       <div className="ni-numeric-input">
-        {props.money && <span className="ni-ma--5 ni-ml--0">{this.moneyMask}</span>}
+        {props.money && <span className="ni-ma--5 ni-ml--0 ni-cursor--default">{this.moneyMask}</span>}
         <input
           className={classnames("ni-text-right", props.className, {
             "ni-input-percent": props.percent,
@@ -119,7 +119,7 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
           onFocus={this.props.onFocus}
           onKeyPress={this.props.onKeyPress}
         />
-        {props.percent && <span className="ni-ma--5">{this.percent}</span>}
+        {props.percent && <span className="ni-ma--5 ni-cursor--default">{this.percent}</span>}
       </div>
     );
   }

@@ -46,6 +46,12 @@ describe("<NumericInput />", () => {
         .find("span")
         .text()
     ).toBe("$");
+    expect(
+      wrapper
+        .find(".ni-numeric-input")
+        .find("span")
+        .props().className
+    ).toContain("ni-cursor--default");
   });
 
   it("should show a button with custom money symbol", () => {
@@ -57,6 +63,12 @@ describe("<NumericInput />", () => {
         .find("span")
         .text()
     ).toBe("R$");
+    expect(
+      wrapper
+        .find(".ni-numeric-input")
+        .find("span")
+        .props().className
+    ).toContain("ni-cursor--default");
   });
 
   it("should show a button with percent symbol", () => {
@@ -145,5 +157,20 @@ describe("<NumericInput />", () => {
         .last()
         .text()
     ).toBe("%");
+
+    expect(
+      wrapper
+        .find(".ni-numeric-input")
+        .find("span")
+        .first()
+        .props().className
+    ).toContain("ni-cursor--default");
+    expect(
+      wrapper
+        .find(".ni-numeric-input")
+        .find("span")
+        .last()
+        .props().className
+    ).toContain("ni-cursor--default");
   });
 });
