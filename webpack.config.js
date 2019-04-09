@@ -40,7 +40,7 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: "styles.css",
+      filename: "react-enhanced-numeric-input.css",
       chunkFilename: "[id].css",
     }),
   ],

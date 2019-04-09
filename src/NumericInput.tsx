@@ -100,7 +100,10 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
       <div className="ni-numeric-input">
         {props.money && <span className="ni-ma--5 ni-ml--0">{this.moneyMask}</span>}
         <input
-          className={classnames("ni-text-right", props.className)}
+          className={classnames("ni-text-right", props.className, {
+            "ni-input-percent": props.percent,
+            "ni-input-money": props.money,
+          })}
           disabled={props.disabled}
           name={props.name}
           style={this.props.style}

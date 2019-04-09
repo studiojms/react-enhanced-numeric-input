@@ -9,3 +9,15 @@
 .ni-ml--0 {
   margin-left: 0;
 }
+
+.ni-input-percent {
+  max-width: calc(100% - 25px);
+}
+
+.ni-input-money {
+  max-width: calc(100% - 25px);
+}
+
+.ni-input-percent.ni-input-money {
+  max-width: calc(100% - 40px);
+}
