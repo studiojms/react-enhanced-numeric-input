@@ -1,6 +1,8 @@
 import * as classnames from "classnames";
 import * as React from "react";
 
+import "./assets/styles.css";
+
 interface INumericInputProps {
   className?: string;
   decimalPrecision?: number;
@@ -53,11 +55,15 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
   }
 
   private get decimalSeparator(): string {
-    return this.props.decimalSeparator || ",";
+    return this.props.decimalSeparator || defaultOptions.decimalSeparator;
   }
 
   private get moneyMask(): string {
-    return this.props.moneyMask || "$";
+    return this.props.moneyMask || defaultOptions.moneyMask;
+  }
+
+  private get percent(): string {
+    return defaultOptions.percent;
   }
 
   public componentDidMount() {
@@ -91,9 +97,10 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
     const decimalPattern = `^[-]?[0-9]*(${this.decimalSeparator}{1}[0-9]*)?`;
 
     return (
-      <div className="sv-input-group">
+      <div className="ni-numeric-input">
+        {props.money && <span className="ni-ma--5 ni-ml--0">{this.moneyMask}</span>}
         <input
-          className={classnames("sv-text-right", props.className)}
+          className={classnames("ni-text-right", props.className)}
           disabled={props.disabled}
           name={props.name}
           style={this.props.style}
@@ -109,7 +116,7 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
           onFocus={this.props.onFocus}
           onKeyPress={this.props.onKeyPress}
         />
-        {this.renderButton()}
+        {props.percent && <span className="ni-ma--5">{this.percent}</span>}
       </div>
     );
   }
@@ -187,33 +194,24 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
       this.props.onBlur(e, valor ? parseFloat(valor.replace(this.decimalSeparator, ".")) : null);
     }
   }
+}
 
-  private handleButtonClick(input: HTMLInputElement) {
-    input.focus();
-    input.setSelectionRange(0, input.size);
-  }
+const defaultOptions = {
+  decimalSeparator: ",",
+  moneyMask: "$",
+  percent: "%",
+};
 
-  private renderButton() {
-    let button = null;
+export function setDefaultMoneyMask(moneyMask: string) {
+  defaultOptions.moneyMask = moneyMask;
+}
 
-    if (this.props.money || this.props.percent) {
-      let icon = this.props.money ? this.moneyMask : "";
-      if (this.props.percent) {
-        icon = "%";
-      }
-      button = (
-        <button
-          type="button"
-          className="sv-button default sv-fw-normal"
-          onClick={() => this.handleButtonClick(this.inputRef.current)}
-        >
-          {icon}
-        </button>
-      );
-    }
+export function setDefaultPercent(percent: string) {
+  defaultOptions.percent = percent;
+}
 
-    return button;
-  }
+export function setDefaultDecimalSeparator(decimalSeparator: string) {
+  defaultOptions.decimalSeparator = decimalSeparator;
 }
 
 export default NumericInput;
