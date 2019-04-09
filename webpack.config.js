@@ -1,6 +1,7 @@
 /* eslint-disable */
 const path = require("path");
 const TerserPlugin = require("terser-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   entry: "./src/NumericInput.tsx",
@@ -19,7 +20,7 @@ module.exports = {
       { enforce: "pre", test: /\.js$/, loader: "source-map-loader" },
       {
         test: /\.css$/,
-        loader: "css-loader",
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
       },
     ],
   },
@@ -37,4 +38,10 @@ module.exports = {
       }),
     ],
   },
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: "styles.css",
+      chunkFilename: "[id].css",
+    }),
+  ],
 };

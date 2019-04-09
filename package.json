@@ -1,6 +1,6 @@
 {
   "name": "react-enhanced-numeric-input",
-  "version": "1.0.8-0",
+  "version": "1.0.8-1",
   "description": "An enhanced Numeric Input compatible with all browsers",
   "repository": "https://github.com/studiojms/react-enhanced-numeric-input.git",
   "author": "studiojms",
@@ -32,6 +32,7 @@
     "enzyme-adapter-react-16": "^1.8.0",
     "enzyme-to-json": "^3.3.5",
     "jest": "^24.0.0",
+    "mini-css-extract-plugin": "^0.5.0",
     "prettier": "^1.16.2",
     "source-map-loader": "^0.2.4",
     "terser-webpack-plugin": "^1.2.2",
