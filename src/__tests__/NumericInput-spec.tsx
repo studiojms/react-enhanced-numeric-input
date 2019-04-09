@@ -40,46 +40,23 @@ describe("<NumericInput />", () => {
   it("should show a button with money symbol", () => {
     const wrapper = shallow(<NumericInput decimalPrecision={2} value={50} money={true} />);
     expect(wrapper.find("input").props().value).toBe("50,00");
-    expect(
-      wrapper
-        .find(".ni-numeric-input")
-        .find("span")
-        .text()
-    ).toBe("$");
-    expect(
-      wrapper
-        .find(".ni-numeric-input")
-        .find("span")
-        .props().className
-    ).toContain("ni-cursor--default");
+    expect(wrapper.find(".ni-numeric-input[data-money='$']")).toHaveLength(1);
+    expect(wrapper.find(".ni-numeric-input").props().className).toContain("money");
   });
 
   it("should show a button with custom money symbol", () => {
     const wrapper = shallow(<NumericInput decimalPrecision={2} value={50} money={true} moneyMask="R$" />);
     expect(wrapper.find("input").props().value).toBe("50,00");
-    expect(
-      wrapper
-        .find(".ni-numeric-input")
-        .find("span")
-        .text()
-    ).toBe("R$");
-    expect(
-      wrapper
-        .find(".ni-numeric-input")
-        .find("span")
-        .props().className
-    ).toContain("ni-cursor--default");
+    expect(wrapper.find(".ni-numeric-input[data-money='$']")).toHaveLength(0);
+    expect(wrapper.find(".ni-numeric-input[data-money='R$']")).toHaveLength(1);
+    expect(wrapper.find(".ni-numeric-input").props().className).toContain("money");
   });
 
   it("should show a button with percent symbol", () => {
     const wrapper = shallow(<NumericInput decimalPrecision={2} value={50} percent={true} />);
     expect(wrapper.find("input").props().value).toBe("50,00");
-    expect(
-      wrapper
-        .find(".ni-numeric-input")
-        .find("span")
-        .text()
-    ).toBe("%");
+    expect(wrapper.find(".ni-numeric-input[data-percent='%']")).toHaveLength(1);
+    expect(wrapper.find(".ni-numeric-input").props().className).toContain("percent");
   });
 
   it("should show value when user inputs 0", () => {
@@ -92,12 +69,9 @@ describe("<NumericInput />", () => {
 
     const wrapper = shallow(<NumericInput decimalPrecision={2} value={50} money={true} />);
     expect(wrapper.find("input").props().value).toBe("50,00");
-    expect(
-      wrapper
-        .find(".ni-numeric-input")
-        .find("span")
-        .text()
-    ).toBe("R$");
+    expect(wrapper.find(".ni-numeric-input[data-money='$']")).toHaveLength(0);
+    expect(wrapper.find(".ni-numeric-input[data-money='R$']")).toHaveLength(1);
+    expect(wrapper.find(".ni-numeric-input").props().className).toContain("money");
   });
 
   it("should allow user to override global value defined for money mask", () => {
@@ -105,12 +79,10 @@ describe("<NumericInput />", () => {
 
     const wrapper = shallow(<NumericInput decimalPrecision={2} value={50} money={true} moneyMask="$$" />);
     expect(wrapper.find("input").props().value).toBe("50,00");
-    expect(
-      wrapper
-        .find(".ni-numeric-input")
-        .find("span")
-        .text()
-    ).toBe("$$");
+    expect(wrapper.find(".ni-numeric-input[data-money='$']")).toHaveLength(0);
+    expect(wrapper.find(".ni-numeric-input[data-money='R$']")).toHaveLength(0);
+    expect(wrapper.find(".ni-numeric-input[data-money='$$']")).toHaveLength(1);
+    expect(wrapper.find(".ni-numeric-input").props().className).toContain("money");
   });
 
   it("should work with global value defined for percent", () => {
@@ -118,12 +90,9 @@ describe("<NumericInput />", () => {
 
     const wrapper = shallow(<NumericInput decimalPrecision={2} value={50} percent={true} />);
     expect(wrapper.find("input").props().value).toBe("50,00");
-    expect(
-      wrapper
-        .find(".ni-numeric-input")
-        .find("span")
-        .text()
-    ).toBe("%%%");
+    expect(wrapper.find(".ni-numeric-input[data-percent='%']")).toHaveLength(0);
+    expect(wrapper.find(".ni-numeric-input[data-percent='%%%']")).toHaveLength(1);
+    expect(wrapper.find(".ni-numeric-input").props().className).toContain("percent");
   });
 
   it("should work with global value defined for decimal separator", () => {
@@ -143,34 +112,9 @@ describe("<NumericInput />", () => {
   it("should allow user to use money and percent masks at the same time", () => {
     const wrapper = shallow(<NumericInput decimalPrecision={2} value={50} money={true} percent={true} />);
     expect(wrapper.find("input").props().value).toBe("50,00");
-    expect(
-      wrapper
-        .find(".ni-numeric-input")
-        .find("span")
-        .first()
-        .text()
-    ).toBe("$");
-    expect(
-      wrapper
-        .find(".ni-numeric-input")
-        .find("span")
-        .last()
-        .text()
-    ).toBe("%");
-
-    expect(
-      wrapper
-        .find(".ni-numeric-input")
-        .find("span")
-        .first()
-        .props().className
-    ).toContain("ni-cursor--default");
-    expect(
-      wrapper
-        .find(".ni-numeric-input")
-        .find("span")
-        .last()
-        .props().className
-    ).toContain("ni-cursor--default");
+    expect(wrapper.find(".ni-numeric-input[data-money='$']")).toHaveLength(1);
+    expect(wrapper.find(".ni-numeric-input").props().className).toContain("money");
+    expect(wrapper.find(".ni-numeric-input[data-percent='%']")).toHaveLength(1);
+    expect(wrapper.find(".ni-numeric-input").props().className).toContain("percent");
   });
 });
