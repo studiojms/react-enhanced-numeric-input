@@ -117,4 +117,19 @@ describe("<NumericInput />", () => {
     expect(wrapper.find(".ni-numeric-input[data-percent='%']")).toHaveLength(1);
     expect(wrapper.find(".ni-numeric-input").props().className).toContain("percent");
   });
+
+  it("should allow user to pass autoFocus property as true", () => {
+    const wrapper = shallow(<NumericInput autoFocus={true} />);
+    expect(wrapper.find("input").props().autoFocus).toBe(true);
+  });
+
+  it("should allow user to pass autoFocus property as false", () => {
+    const wrapper = shallow(<NumericInput autoFocus={false} />);
+    expect(wrapper.find("input").props().autoFocus).toBe(false);
+  });
+
+  it("should not pass autoFocus property when not specified", () => {
+    const wrapper = shallow(<NumericInput />);
+    expect(wrapper.find("input").props().autoFocus).toBe(undefined);
+  });
 });
