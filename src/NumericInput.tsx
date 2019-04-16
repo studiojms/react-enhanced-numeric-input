@@ -7,7 +7,8 @@ interface INumericInputProps {
   className?: string;
   decimalPrecision?: number;
   decimalSeparator?: string;
-  disabled?: false;
+  disabled?: boolean;
+  autoFocus?: boolean;
   maxLength?: number;
   id?: string;
   name?: string;
@@ -105,6 +106,7 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
         <input
           className={classnames("ni-text-right", props.className)}
           disabled={props.disabled}
+          autoFocus={props.autoFocus}
           name={props.name}
           style={this.props.style}
           maxLength={props.maxLength || 20}
