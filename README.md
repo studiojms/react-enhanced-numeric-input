@@ -4,13 +4,32 @@
 
 An enhanced Numeric Input made with React
 
+## Install
+
+To install the component, just type:
+
+```sh
+npm install react-enhanced-numeric-input
+```
+
+or
+
+```sh
+yarn add react-enhanced-numeric-input
+```
+## Using
+
 To use it, you will need to import the component and use it like:
+
+```js
+import NumericInput from 'react-enhanced-numeric-input';
+```
 
 ```js
 <NumericInput />
 ```
 
-## Example
+### Example
 
 ```js
 <NumericInput decimalPrecision={2} value={50} />
