@@ -4,7 +4,7 @@
 
 An enhanced Numeric Input made with React
 
-Docs: [https://github.com/studiojms/react-enhanced-numeric-input](https://github.com/studiojms/react-enhanced-numeric-input)
+Docs: [https://studiojms.github.io/react-enhanced-numeric-input/](https://studiojms.github.io/react-enhanced-numeric-input/)
 
 ## Install
 
