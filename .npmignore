@@ -1,8 +1,0 @@
-src
-__mocks__
-jest.config.js
-tslint.json
-tsconfig.json
-.prettierrc.json
-yarn.lock
-webpack.config.js
