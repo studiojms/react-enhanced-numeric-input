@@ -67,6 +67,10 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
     return defaultOptions.percent;
   }
 
+  private get maxLength(): number {
+    return this.props.maxLength || 20;
+  }
+
   public componentDidMount() {
     this.setState({
       formattedValue: this.formatWithZeroes(
@@ -109,7 +113,7 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
           autoFocus={props.autoFocus}
           name={props.name}
           style={this.props.style}
-          maxLength={props.maxLength || 20}
+          maxLength={this.maxLength}
           pattern={props.decimalPrecision > 0 ? decimalPattern : numericPattern}
           type="text"
           id={props.id}
@@ -126,7 +130,11 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
   }
 
   private onChange(e: React.ChangeEvent<HTMLInputElement>) {
-    if (e.target.validity.valid) {
+    const decimalNotationLength =
+      this.props.decimalPrecision > 0 && this.props.decimalPrecision + this.decimalSeparator.length;
+    const calculatedMaxLength = this.maxLength + decimalNotationLength;
+
+    if (e.target.value.length <= calculatedMaxLength) {
       const value = e.target.value;
       this.setState({ formattedValue: value });
       if (this.props.onChange) {
@@ -137,7 +145,22 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
 
   private formatWithZeroes(val: string, decimalPlaces: number): string {
     let formattedValue = val;
-    if (val !== "" && val !== null && decimalPlaces !== null && decimalPlaces > 0) {
+
+    const decimalNotationLength =
+      this.props.decimalPrecision > 0 && this.props.decimalPrecision + this.decimalSeparator.length;
+    const calculatedMaxLength = this.maxLength + decimalNotationLength;
+
+    if (formattedValue.length > this.maxLength) {
+      formattedValue = formattedValue.substr(0, this.maxLength);
+    }
+
+    if (
+      val !== "" &&
+      val !== null &&
+      decimalPlaces !== null &&
+      decimalPlaces > 0 &&
+      val.length <= calculatedMaxLength
+    ) {
       val = String(val);
 
       let paddingZeroes = "";
@@ -179,14 +202,15 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
   }
 
   private onBlur(e: React.ChangeEvent<HTMLInputElement>) {
+    const { decimalPrecision } = this.props;
     let valor = e.target.value;
-    if (valor !== "") {
-      const { decimalPrecision } = this.props;
+    const formattedValue = this.formatWithZeroes(valor, decimalPrecision);
 
-      valor = this.formatWithZeroes(valor, decimalPrecision);
+    if (valor !== "" && formattedValue.length <= this.maxLength) {
+      valor = formattedValue;
 
       if (valor.indexOf(`-0${this.decimalSeparator}`) >= 0) {
-        // remove sinal se valor for 0
+        // remove signal if values is greater than 0
         valor = valor.substr(1, valor.length);
       }
 

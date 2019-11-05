@@ -1,0 +1,29 @@
+---
+name: NumericInput
+route: /
+---
+
+import { Playground, Props } from "docz";
+import NumericInput from "../src/NumericInput.tsx";
+
+# NumericInput
+
+<Props of={NumericInput} />
+
+## Basic Usage
+
+<Playground>
+  <NumericInput />
+</Playground>
+
+## Defining decimal precision
+
+<Playground>
+  <NumericInput decimalPrecision={2} value={50} />
+</Playground>
+
+## Decimal precision and maxLength
+
+<Playground>
+  <NumericInput decimalPrecision={2} maxLength={4} value={99999999} />
+</Playground>
