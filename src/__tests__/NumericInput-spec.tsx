@@ -132,4 +132,16 @@ describe("<NumericInput />", () => {
     const wrapper = shallow(<NumericInput />);
     expect(wrapper.find("input").props().autoFocus).toBe(undefined);
   });
+
+  it("should allow user to type to the limit of the defined maxLength property", () => {
+    const wrapper = shallow(<NumericInput maxLength={5} value={"123456"} />);
+    expect(wrapper.find("input").props().maxLength).toBe(5);
+    expect(wrapper.find("input").props().value).toBe("12345");
+  });
+
+  it("should allow user to type to the limit of the defined maxLength property when there is decimalPrecision", () => {
+    const wrapper = shallow(<NumericInput maxLength={5} decimalPrecision={2} value={"12"} />);
+    expect(wrapper.find("input").props().maxLength).toBe(5);
+    expect(wrapper.find("input").props().value).toBe("12,00");
+  });
 });
