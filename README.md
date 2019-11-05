@@ -4,6 +4,8 @@
 
 An enhanced Numeric Input made with React
 
+Docs: [https://github.com/studiojms/react-enhanced-numeric-input](https://github.com/studiojms/react-enhanced-numeric-input)
+
 ## Install
 
 To install the component, just type:
@@ -17,12 +19,13 @@ or
 ```sh
 yarn add react-enhanced-numeric-input
 ```
+
 ## Using
 
 To use it, you will need to import the component and use it like:
 
 ```js
-import NumericInput from 'react-enhanced-numeric-input';
+import NumericInput from "react-enhanced-numeric-input";
 ```
 
 ```js

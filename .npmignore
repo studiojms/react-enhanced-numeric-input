@@ -6,3 +6,9 @@ tsconfig.json
 .prettierrc.json
 yarn.lock
 webpack.config.js
+docs
+.docz
+doczrc.js
+gatsby-config.js
+.travis.yml
+LICENSE

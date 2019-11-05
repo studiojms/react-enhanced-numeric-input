@@ -68,7 +68,7 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
   }
 
   private get maxLength(): number {
-    return this.props.maxLength || 20;
+    return this.props.maxLength || 15;
   }
 
   public componentDidMount() {
@@ -84,7 +84,7 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
   public componentDidUpdate(prevProps: INumericInputProps) {
     const { value } = this.props;
 
-    if (value !== prevProps.value && this.state.formattedValue !== value) {
+    if (!isNaN(Number(value)) && value !== prevProps.value && this.state.formattedValue !== value) {
       this.setState({
         formattedValue: this.formatWithZeroes(
           `${value != null ? value : ""}`.replace(/\./g, this.decimalSeparator),
@@ -130,15 +130,17 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
   }
 
   private onChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const decimalNotationLength =
-      this.props.decimalPrecision > 0 && this.props.decimalPrecision + this.decimalSeparator.length;
-    const calculatedMaxLength = this.maxLength + decimalNotationLength;
+    if (e.target.validity.valid) {
+      const decimalNotationLength =
+        this.props.decimalPrecision > 0 && this.props.decimalPrecision + this.decimalSeparator.length;
+      const calculatedMaxLength = this.maxLength + decimalNotationLength;
 
-    if (e.target.value.length <= calculatedMaxLength) {
-      const value = e.target.value;
-      this.setState({ formattedValue: value });
-      if (this.props.onChange) {
-        this.props.onChange(e);
+      if (e.target.value.length <= calculatedMaxLength) {
+        const value = e.target.value;
+        this.setState({ formattedValue: value });
+        if (this.props.onChange) {
+          this.props.onChange(e);
+        }
       }
     }
   }
@@ -148,7 +150,7 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
 
     const decimalNotationLength =
       this.props.decimalPrecision > 0 && this.props.decimalPrecision + this.decimalSeparator.length;
-    const calculatedMaxLength = this.maxLength + decimalNotationLength;
+    const calculatedMaxLength = this.maxLength - decimalNotationLength;
 
     if (formattedValue.length > this.maxLength) {
       formattedValue = formattedValue.substr(0, this.maxLength);
@@ -193,9 +195,10 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
   private getReturnValue(baseValue: string) {
     let returnValue = null;
     if (this.props.stringValueOnBlur) {
-      returnValue = `${baseValue}`;
+      returnValue = baseValue;
     } else {
-      returnValue = baseValue ? parseFloat(baseValue.replace(this.decimalSeparator, ".")) : null;
+      const isNumberAcceptable = baseValue && baseValue.length <= 15;
+      returnValue = isNumberAcceptable ? parseFloat(baseValue.replace(this.decimalSeparator, ".")) : baseValue;
     }
 
     return returnValue;
@@ -206,7 +209,7 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
     let valor = e.target.value;
     const formattedValue = this.formatWithZeroes(valor, decimalPrecision);
 
-    if (valor !== "" && formattedValue.length <= this.maxLength) {
+    if (valor !== "" && formattedValue.length <= this.maxLength && !isNaN(Number(valor))) {
       valor = formattedValue;
 
       if (valor.indexOf(`-0${this.decimalSeparator}`) >= 0) {
@@ -219,7 +222,8 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
     }
 
     if (this.props.onBlur) {
-      this.props.onBlur(e, valor ? parseFloat(valor.replace(this.decimalSeparator, ".")) : null);
+      const isNumberAcceptable = valor !== "" && valor !== null && valor.length <= 15;
+      this.props.onBlur(e, isNumberAcceptable ? parseFloat(valor.replace(this.decimalSeparator, ".")) : valor);
     }
   }
 }
