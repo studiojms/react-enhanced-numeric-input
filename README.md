@@ -59,20 +59,27 @@ Some properties need to be set systemwide. To do so, it is necessary to import t
 
 ### Default values
 
-| Property         | Default Value |
-| :--------------- | :------------ |
-| moneyMask        | \$            |
-| percent          | %             |
-| decimalSeparator | ,             |
+| Property          | Default Value |
+| :---------------- | :------------ |
+| moneyMask         | \$            |
+| percent           | %             |
+| decimalSeparator  | ,             |
+| thousandSeparator |               |
 
 ### Example
 
 ```js
-import { setDefaultMoneyMask, setDefaultPercent, setDefaultDecimalSeparator } from "react-enhanced-numeric-input";
+import {
+  setDefaultMoneyMask,
+  setDefaultPercent,
+  setDefaultDecimalSeparator,
+  setDefaultThousandSeparator,
+} from "react-enhanced-numeric-input";
 
 setDefaultMoneyMask("US$");
 setDefaultPercent("percent");
 setDefaultDecimalSeparator(".");
+setDefaultThousandSeparator(",");
 ```
 
 ## Properties list
@@ -97,4 +104,5 @@ setDefaultDecimalSeparator(".");
 | money             | boolean          | false         |
 | stringValueOnBlur | boolean          | false         |
 | decimalSeparator  | string           | ,             |
+| thousandSeparator | string           |               |
 | moneyMask         | string           | \$            |

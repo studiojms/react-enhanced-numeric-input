@@ -50,7 +50,7 @@ import "./styles.css";
     name="tot_debit"
     maxLength={20}
     value={503.2}
-    onChange={e => console.log(e.target.name, e.target.value)}
+    onChange={(e) => console.log(e.target.name, e.target.value)}
     onBlur={(e, val) => {
       console.log(e.target.name, e.target.value);
     }}
@@ -65,7 +65,38 @@ import "./styles.css";
     decimalPrecision={2}
     maxLength={4}
     value={99999999}
-    onChange={e => console.log("change", e.target.value)}
+    onChange={(e) => console.log("change", e.target.value)}
     onBlur={(e, val) => console.log("blur", e.target.name, val)}
   />
+</Playground>
+
+## Thousand separator as dot (.)
+
+<Playground>
+  <NumericInput
+    decimalPrecision={2}
+    value={99999999}
+    thousandSeparator="."
+    decimalSeparator=","
+    onChange={(e) => console.log("change", e.target.value)}
+    onBlur={(e, val) => console.log("blur", e.target.name, val)}
+  />
+</Playground>
+
+## Thousand separator as comma (,)
+
+<Playground>
+  <NumericInput
+    decimalPrecision={2}
+    value={99999999}
+    thousandSeparator=","
+    onChange={(e) => console.log("change", e.target.value)}
+    onBlur={(e, val) => console.log("blur", e.target.name, val)}
+  />
+</Playground>
+
+## Test with thousand separator and maxLength
+
+<Playground>
+  <NumericInput value={99999} maxLength={8} thousandSeparator="," />
 </Playground>
