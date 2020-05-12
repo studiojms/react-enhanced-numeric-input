@@ -1,7 +1,12 @@
 import { shallow } from "enzyme";
 import * as React from "react";
 
-import NumericInput, { setDefaultMoneyMask, setDefaultPercent, setDefaultDecimalSeparator } from "../NumericInput";
+import NumericInput, {
+  setDefaultMoneyMask,
+  setDefaultPercent,
+  setDefaultDecimalSeparator,
+  setDefaultThousandSeparator,
+} from "../NumericInput";
 
 describe("<NumericInput />", () => {
   beforeEach(() => {
@@ -9,6 +14,7 @@ describe("<NumericInput />", () => {
     setDefaultMoneyMask("$");
     setDefaultPercent("%");
     setDefaultDecimalSeparator(",");
+    setDefaultThousandSeparator("");
   });
 
   it("should render the component correctly, with an <input />", () => {
@@ -143,5 +149,22 @@ describe("<NumericInput />", () => {
     const wrapper = shallow(<NumericInput maxLength={5} decimalPrecision={2} value={"12"} />);
     expect(wrapper.find("input").props().maxLength).toBe(5);
     expect(wrapper.find("input").props().value).toBe("12,00");
+  });
+
+  it("should allow user to see the value with thousand separators", () => {
+    const wrapper = shallow(<NumericInput value={"123,456"} thousandSeparator="," />);
+    expect(wrapper.find("input").props().value).toBe("123,456");
+  });
+
+  it("should allow user to set custom thousand separator and decimal separator", () => {
+    const wrapper = shallow(
+      <NumericInput decimalPrecision={2} value={99999999} thousandSeparator="." decimalSeparator="," />
+    );
+    expect(wrapper.find("input").props().value).toBe("99.999.999,00");
+  });
+
+  it("should allow user to set thousand separator and maxLength", () => {
+    const wrapper = shallow(<NumericInput value={99999} maxLength={6} thousandSeparator="." decimalSeparator="," />);
+    expect(wrapper.find("input").props().value).toBe("99.999");
   });
 });
