@@ -6,7 +6,7 @@
 
 An enhanced Numeric Input made with React
 
-Docs: [https://studiojms.github.io/react-enhanced-numeric-input/](https://studiojms.github.io/react-enhanced-numeric-input/)
+Docs: [https://react-enhanced-numeric-input.netlify.app/](https://react-enhanced-numeric-input.netlify.app/)
 
 ## Install
 
