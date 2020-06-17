@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.com/studiojms/react-enhanced-numeric-input.svg?branch=master)](https://travis-ci.com/studiojms/react-enhanced-numeric-input)
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/bdbe0b9d-146b-4f6a-bf5a-abdf3fa2c149/deploy-status)](https://app.netlify.com/sites/react-enhanced-numeric-input/deploys)
+
 # react-enhanced-numeric-input
 
 An enhanced Numeric Input made with React
