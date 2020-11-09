@@ -205,7 +205,7 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
   private formatWithZeroes(val: string, decimalPlaces: number): string {
     let formattedValue = val;
 
-    const thousandSeparatorRegex = /\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g;
+    const thousandSeparatorRegex = /\B(?=(\d{3})+(?!\d))/g;
     const decimalSeparator = this.decimalSeparator;
 
     if (formattedValue?.length > this.maxLength) {
