@@ -198,7 +198,10 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
     if (e.target.validity.valid) {
       const value = e.target.value;
 
-      if (value.length <= this.maxLength) {
+      const integerPart = value.replace(new RegExp(this.escapedDecimalSeparator + ".+"), "");
+      // const decimalPart = value.replace(new RegExp(".+" + this.escapedDecimalSeparator), "");
+
+      if (integerPart.length <= this.maxLength || value.length <= (this.state.formattedValue as string).length) {
         this.setState({ formattedValue: value });
         if (this.props.onChange) {
           this.props.onChange(e);
@@ -229,12 +232,7 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
       formattedValue = formattedValue.substr(0, this.maxLength);
     }
 
-    if (
-      val !== "" &&
-      val !== null &&
-      decimalPlaces !== null &&
-      decimalPlaces > 0 //&&       val.length <= this.calculateMaxLength(val)
-    ) {
+    if (val !== "" && val !== null && decimalPlaces !== null && decimalPlaces > 0) {
       val = String(val);
 
       let paddingZeroes = "";
