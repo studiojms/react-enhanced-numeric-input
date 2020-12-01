@@ -100,3 +100,15 @@ import "./styles.css";
 <Playground>
   <NumericInput value={99999} maxLength={8} thousandSeparator="," />
 </Playground>
+
+## Working with large numbers
+
+<Playground>
+  <NumericInput value={99999} maxLength={30} thousandSeparator="," />
+</Playground>
+
+## Working with large numbers with decimals
+
+<Playground>
+  <NumericInput value={99999.9901} maxLength={25} thousandSeparator="," decimalPrecision={5} />
+</Playground>

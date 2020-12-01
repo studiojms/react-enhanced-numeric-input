@@ -138,14 +138,19 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
     return pattern;
   }
 
-  public render(): JSX.Element {
-    const { props } = this;
+  private get calculatedMaxLength() {
     let calculatedMaxLength = this.maxLength;
 
     if (this.maxLength) {
       const fullValue = "9".repeat(this.maxLength);
       calculatedMaxLength = this.calculateMaxLength(fullValue) + this.calculateThousandSeparatorLength(fullValue);
     }
+
+    return calculatedMaxLength;
+  }
+
+  public render(): JSX.Element {
+    const { props } = this;
 
     return (
       <div
@@ -159,7 +164,7 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
           autoFocus={props.autoFocus}
           name={props.name}
           style={this.props.style}
-          maxLength={calculatedMaxLength}
+          maxLength={this.calculatedMaxLength}
           pattern={this.inputPattern}
           type="text"
           id={props.id}
@@ -193,19 +198,13 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
     if (e.target.validity.valid) {
       const value = e.target.value;
 
-      const { decimalPrecision } = this.props;
-      const formattedValue = this.formatWithZeroes(value, decimalPrecision);
-
-      if (formattedValue.length <= this.calculateMaxLength(value)) {
+      if (value.length <= this.maxLength) {
         this.setState({ formattedValue: value });
         if (this.props.onChange) {
           this.props.onChange(e);
         }
       } else {
-        if (this.props.onChange) {
-          const substrValue = value.substr(0, this.maxLength);
-          this.props.onChange(({ target: { value: substrValue } } as unknown) as React.ChangeEvent);
-        }
+        e.target.value = this.state.formattedValue;
       }
     }
   }
@@ -234,8 +233,7 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
       val !== "" &&
       val !== null &&
       decimalPlaces !== null &&
-      decimalPlaces > 0 &&
-      val.length <= this.calculateMaxLength(val)
+      decimalPlaces > 0 //&&       val.length <= this.calculateMaxLength(val)
     ) {
       val = String(val);
 
@@ -274,14 +272,9 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
     if (this.props.stringValueOnBlur) {
       returnValue = baseValue;
     } else {
-      const isNumberAcceptable = baseValue && baseValue.length <= 15;
-      returnValue = isNumberAcceptable
-        ? parseFloat(
-            baseValue
-              .replace(new RegExp(this.escapedThousandSeparator, "g"), "")
-              .replace(this.escapedDecimalSeparator, ".")
-          )
-        : baseValue;
+      returnValue = baseValue
+        .replace(new RegExp(this.escapedThousandSeparator, "g"), "")
+        .replace(this.escapedDecimalSeparator, ".");
     }
 
     return returnValue;
@@ -289,36 +282,36 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
 
   private onBlur(e: React.ChangeEvent<HTMLInputElement>) {
     const { decimalPrecision } = this.props;
-    let valor = e?.target?.value;
-    const formattedValue = this.formatWithZeroes(valor, decimalPrecision);
+    let value = e?.target?.value;
+    const formattedValue = this.formatWithZeroes(value, decimalPrecision);
 
-    if (
-      valor !== "" &&
-      formattedValue?.length <= this.maxLength &&
-      valor?.replace(new RegExp(this.escapedThousandSeparator, "g"), "")?.replace(this.escapedDecimalSeparator, ".")
-    ) {
-      valor = formattedValue;
+    const unformattedValue = value
+      ?.replace(new RegExp(this.escapedThousandSeparator, "g"), "")
+      ?.replace(this.escapedDecimalSeparator, ".");
 
-      if (valor.indexOf(`-0${this.decimalSeparator}`) >= 0) {
+    if (value !== "" && unformattedValue && unformattedValue.length <= this.calculatedMaxLength) {
+      value = unformattedValue;
+
+      if (value.indexOf(`-0${this.decimalSeparator}`) >= 0) {
         // remove signal if values is greater than 0
-        valor = valor.substr(1, valor.length);
+        value = value.substr(1, value.length);
       }
 
-      this.setState({ value: this.getReturnValue(valor), formattedValue: valor });
-      e.target.value = valor;
+      this.setState({ value: this.getReturnValue(value), formattedValue });
+      e.target.value = value;
     }
 
     if (this.props.onBlur) {
-      const isNumberAcceptable = valor !== "" && valor !== null && valor.length <= 15;
+      const isNumberAcceptable = value !== "" && value !== null && value.length <= 15;
       this.props.onBlur(
         e,
         isNumberAcceptable
           ? parseFloat(
-              valor
+              value
                 .replace(new RegExp(this.escapedThousandSeparator, "g"), "")
                 .replace(this.escapedDecimalSeparator, ".")
             )
-          : valor
+          : value
       );
     }
   }
