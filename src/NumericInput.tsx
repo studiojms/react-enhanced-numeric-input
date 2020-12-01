@@ -15,11 +15,11 @@ interface INumericInputProps {
   name?: string;
   placeholder?: string;
   onChange?: (e: React.ChangeEvent) => void;
-  onBlur?: (e: React.ChangeEvent, value: any) => void;
+  onBlur?: (e: React.ChangeEvent, value: string | number) => void;
   onClick?: () => void;
   onFocus?: (e: React.FocusEvent) => void;
   onKeyPress?: () => void;
-  style?: Record<string, any>;
+  style?: React.CSSProperties;
   value?: string | number;
   percent?: boolean;
   money?: boolean;
@@ -96,7 +96,7 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
     return this.props.maxLength || 15;
   }
 
-  public componentDidMount() {
+  public componentDidMount(): void {
     this.setState({
       formattedValue: this.formatWithZeroes(
         `${this.props.value != null ? this.props.value : ""}`.replace(/\./g, this.decimalSeparator),
@@ -106,10 +106,10 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
     });
   }
 
-  public componentDidUpdate(prevProps: INumericInputProps) {
+  public componentDidUpdate(prevProps: INumericInputProps): void {
     const { value } = this.props;
 
-    if (!isNaN(Number(value)) && value !== prevProps.value && this.state.formattedValue !== value) {
+    if (value != null && value !== prevProps.value && this.state.formattedValue !== value) {
       this.setState({
         formattedValue: this.formatWithZeroes(
           `${value != null ? value : ""}`.replace(/\./g, this.decimalSeparator),
@@ -138,8 +138,14 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
     return pattern;
   }
 
-  public render() {
+  public render(): JSX.Element {
     const { props } = this;
+    let calculatedMaxLength = this.maxLength;
+
+    if (this.maxLength) {
+      const fullValue = "9".repeat(this.maxLength);
+      calculatedMaxLength = this.calculateMaxLength(fullValue) + this.calculateThousandSeparatorLength(fullValue);
+    }
 
     return (
       <div
@@ -153,7 +159,7 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
           autoFocus={props.autoFocus}
           name={props.name}
           style={this.props.style}
-          maxLength={this.maxLength}
+          maxLength={calculatedMaxLength}
           pattern={this.inputPattern}
           type="text"
           id={props.id}
@@ -169,13 +175,17 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
     );
   }
 
+  private calculateThousandSeparatorLength(value: string): number {
+    return this.thousandSeparator
+      ? Math.trunc(value.split(this.decimalSeparator)[0].length / 3) -
+          (value.split(this.decimalSeparator)[0].length % 3 > 0 ? 0 : 1)
+      : 0;
+  }
+
   private calculateMaxLength(value: string): number {
     const decimalNotationLength =
       this.props.decimalPrecision > 0 && this.props.decimalPrecision + this.decimalSeparator.length;
-    const thousandSeparatorLength = this.thousandSeparator
-      ? Math.trunc(value.split(this.decimalSeparator)[0].length / 3) -
-        (value.split(this.decimalSeparator)[0].length % 3 > 0 ? 0 : 1)
-      : 0;
+    const thousandSeparatorLength = this.calculateThousandSeparatorLength(value);
     return this.maxLength + decimalNotationLength - thousandSeparatorLength;
   }
 
@@ -183,10 +193,18 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
     if (e.target.validity.valid) {
       const value = e.target.value;
 
-      if (value.length <= this.calculateMaxLength(value)) {
+      const { decimalPrecision } = this.props;
+      const formattedValue = this.formatWithZeroes(value, decimalPrecision);
+
+      if (formattedValue.length <= this.calculateMaxLength(value)) {
         this.setState({ formattedValue: value });
         if (this.props.onChange) {
           this.props.onChange(e);
+        }
+      } else {
+        if (this.props.onChange) {
+          const substrValue = value.substr(0, this.maxLength);
+          this.props.onChange(({ target: { value: substrValue } } as unknown) as React.ChangeEvent);
         }
       }
     }
@@ -277,11 +295,7 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
     if (
       valor !== "" &&
       formattedValue?.length <= this.maxLength &&
-      !isNaN(
-        Number(
-          valor?.replace(new RegExp(this.escapedThousandSeparator, "g"), "")?.replace(this.escapedDecimalSeparator, ".")
-        )
-      )
+      valor?.replace(new RegExp(this.escapedThousandSeparator, "g"), "")?.replace(this.escapedDecimalSeparator, ".")
     ) {
       valor = formattedValue;
 
@@ -317,19 +331,19 @@ const defaultOptions = {
   percent: "%",
 };
 
-export function setDefaultMoneyMask(moneyMask: string) {
+export function setDefaultMoneyMask(moneyMask: string): void {
   defaultOptions.moneyMask = moneyMask;
 }
 
-export function setDefaultPercent(percent: string) {
+export function setDefaultPercent(percent: string): void {
   defaultOptions.percent = percent;
 }
 
-export function setDefaultDecimalSeparator(decimalSeparator: string) {
+export function setDefaultDecimalSeparator(decimalSeparator: string): void {
   defaultOptions.decimalSeparator = decimalSeparator;
 }
 
-export function setDefaultThousandSeparator(thousandSeparator: string) {
+export function setDefaultThousandSeparator(thousandSeparator: string): void {
   defaultOptions.thousandSeparator = thousandSeparator;
 }
 

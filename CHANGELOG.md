@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2020-12-01
+
+### Changed
+
+- Updated the way `maxLength` attribute works, being valid only for the digits, not the thousand separator. This way, if the maxLength is set to `8` (with `decimalPrecision=2`), the max allowed value will be `99999,99`.
+
+## [1.1.1] - 2020-11-09
+
+### Changed
+
+- Fixed regex error with firefox 68.7.0esr
+
 ## [1.1.0] - 2020-05-12
 
 ### Added

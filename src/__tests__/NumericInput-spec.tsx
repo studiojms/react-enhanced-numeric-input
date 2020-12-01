@@ -146,9 +146,9 @@ describe("<NumericInput />", () => {
   });
 
   it("should allow user to type to the limit of the defined maxLength property when there is decimalPrecision", () => {
-    const wrapper = shallow(<NumericInput maxLength={5} decimalPrecision={2} value={"12"} />);
-    expect(wrapper.find("input").props().maxLength).toBe(5);
-    expect(wrapper.find("input").props().value).toBe("12,00");
+    const wrapper = shallow(<NumericInput maxLength={5} decimalPrecision={2} value={"12345,1"} />);
+    expect(wrapper.find("input").props().maxLength).toBe(8);
+    expect(wrapper.find("input").props().value).toBe("12345,10");
   });
 
   it("should allow user to see the value with thousand separators", () => {
@@ -166,5 +166,13 @@ describe("<NumericInput />", () => {
   it("should allow user to set thousand separator and maxLength", () => {
     const wrapper = shallow(<NumericInput value={99999} maxLength={6} thousandSeparator="." decimalSeparator="," />);
     expect(wrapper.find("input").props().value).toBe("99.999");
+  });
+
+  it("should allow user to type more than 10 digits in a NumericInput", () => {
+    const wrapper = shallow(
+      <NumericInput value="9999999999999999999999999" maxLength={25} thousandSeparator="." decimalSeparator="," />
+    );
+
+    expect(wrapper.find("input").props().value).toBe("9.999.999.999.999.999.999.999.999");
   });
 });
