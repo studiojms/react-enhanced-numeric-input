@@ -303,7 +303,7 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
       const isNumberAcceptable = value !== "" && value !== null && value.length <= 15;
       this.props.onBlur(
         e,
-        isNumberAcceptable
+        isNumberAcceptable && value != unformattedValue
           ? parseFloat(
               value
                 .replace(new RegExp(this.escapedThousandSeparator, "g"), "")
