@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.4] - 2020-12-31
+
+### Changed
+
+- Fixed formatting issues related to thousand separator applied on decimal places.
+
 ## [1.2.3] - 2020-12-09
 
 ### Changed
