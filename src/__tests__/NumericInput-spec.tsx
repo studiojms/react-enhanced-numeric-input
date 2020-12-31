@@ -175,4 +175,12 @@ describe("<NumericInput />", () => {
 
     expect(wrapper.find("input").props().value).toBe("9.999.999.999.999.999.999.999.999");
   });
+
+  it("should not format decimal digits with thousand separator, only the integer part in a NumericInput", () => {
+    const wrapper = shallow(
+      <NumericInput value="1234567" decimalPrecision={4} thousandSeparator="." decimalSeparator="," />
+    );
+
+    expect(wrapper.find("input").props().value).toBe("1.234.567,0000");
+  });
 });

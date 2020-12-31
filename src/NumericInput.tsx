@@ -236,21 +236,21 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
       val = String(val);
 
       let paddingZeroes = "";
-      const separatorPosition = val.indexOf(decimalSeparator);
-      const hasSeparator = separatorPosition > 0;
+      const decimalSeparatorPosition = val.indexOf(decimalSeparator);
+      const hasDecimalSeparator = decimalSeparatorPosition > 0;
       let missingPlaces;
 
-      if (hasSeparator) {
-        missingPlaces = decimalPlaces - val.substr(separatorPosition + 1).length;
+      if (hasDecimalSeparator) {
+        missingPlaces = decimalPlaces - val.substr(decimalSeparatorPosition + 1).length;
       } else {
-        missingPlaces = decimalPlaces - (separatorPosition + 1);
+        missingPlaces = decimalPlaces - (decimalSeparatorPosition + 1);
       }
 
       for (let i = 1; i <= missingPlaces; i++) {
         paddingZeroes += "0";
       }
 
-      const partialFormattedValue = `${val}${hasSeparator ? "" : decimalSeparator}${paddingZeroes}`;
+      const partialFormattedValue = `${val}${hasDecimalSeparator ? "" : decimalSeparator}${paddingZeroes}`;
 
       formattedValue =
         partialFormattedValue.split(decimalSeparator)[0] +
@@ -259,7 +259,16 @@ class NumericInput extends React.Component<INumericInputProps, INumericInputStat
     }
 
     if (this.thousandSeparator) {
-      formattedValue = formattedValue.replace(thousandSeparatorRegex, this.thousandSeparator);
+      const formattedValueDecimalSeparatorPosition = formattedValue.indexOf(decimalSeparator);
+      const formattedValueHasDecimalSeparator = formattedValueDecimalSeparatorPosition > 0;
+      if (formattedValueHasDecimalSeparator) {
+        const integerPart = formattedValue.substr(0, formattedValueDecimalSeparatorPosition);
+        const decimalPart = formattedValue.substr(formattedValueDecimalSeparatorPosition + 1);
+        formattedValue =
+          integerPart.replace(thousandSeparatorRegex, this.thousandSeparator) + decimalSeparator + decimalPart;
+      } else {
+        formattedValue = formattedValue.replace(thousandSeparatorRegex, this.thousandSeparator);
+      }
     }
 
     return formattedValue;
