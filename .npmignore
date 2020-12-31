@@ -12,3 +12,5 @@ doczrc.js
 gatsby-config.js
 .travis.yml
 LICENSE
+netlify.toml
+node_modules
